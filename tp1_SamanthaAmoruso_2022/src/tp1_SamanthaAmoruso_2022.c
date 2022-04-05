@@ -74,7 +74,7 @@ int main()
 			 case 2:
 			 if (bandera1==0)
 			 {
-				printf("\n error,no Kilometros\n");
+				printf("\n error,no ingresaste Kilometros\n");
 			 }
 			 else
 			 {
