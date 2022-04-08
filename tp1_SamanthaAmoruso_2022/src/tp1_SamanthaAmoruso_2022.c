@@ -60,14 +60,29 @@ int main()
 	float xPrecioAerolineaKmForzado;
 	float xPrecioAerolineaDiferenciaForzado;
 
+	int verificacion;
+	char cadena[50];
+
 	do
 	{
 		switch(menu())
 		{
 		 	 case 1:
 			 printf("Ingrese los kilometros: ");
-			 scanf("%f", &kilometros);
-			 printf("Los kilometros que usted ingreso son: %.2f\n", kilometros);
+			 fflush(stdin);
+			 gets(cadena);
+
+			 verificacion = sonLetras(cadena);
+			 while (verificacion == 1)
+			 {
+				printf("no ingresaste numeros, reingrese kilometros: \n");
+				fflush(stdin);
+				gets(cadena);
+				verificacion = sonLetras(cadena);
+			 }
+			 printf("Los kilometros que usted ingreso son: %s\n", cadena);
+
+			 kilometros = atof(cadena);
 			 bandera1=1;
 			 break; //fin del case 1
 
@@ -78,13 +93,35 @@ int main()
 			 }
 			 else
 			 {
-				 printf("\n Ingrese el precio de su vuelo de aerolineas: ");
-				 scanf("%f", &precioAerolineas);
-				 printf("El precio de su vuelo aerolineas es de: %.2f\n",precioAerolineas);
+				 printf("\n Ingrese el precio de su vuelo Aerolineas: ");
+				 fflush(stdin);
+				 gets(cadena);
+
+				 verificacion = sonLetras(cadena);
+				 while (verificacion == 1)
+				 {
+					printf("no ingresaste numeros, reingrese el precio de su vuelo Aerolineas: \n");
+					fflush(stdin);
+					gets(cadena);
+					verificacion = sonLetras(cadena);
+				 }
+				 printf("El precio de su vuelo aerolineas es de: %s\n",cadena);
+				 precioAerolineas = atof(cadena);
 
 				 printf("\n Ingrese el precio de su vuelo de latam: ");
-				 scanf("%f", &precioLatam);
-				 printf("El precio de su vuelo aerolineas es de: %.2f\n",precioLatam);
+				 fflush(stdin);
+				 gets(cadena);
+
+				 verificacion = sonLetras(cadena);
+				 while (verificacion == 1)
+				 {
+					printf("no ingresaste numeros, reingrese el precio de su vuelo de latam: \n");
+					fflush(stdin);
+					gets(cadena);
+					verificacion = sonLetras(cadena);
+				 }
+				 printf("El precio de su vuelo latam es de: %s\n",cadena);
+				 precioLatam = atof(cadena);
 				 bandera2=1;
 			 }
 			 break; //fin del case 2
@@ -93,28 +130,26 @@ int main()
 			 if (bandera1==1 && bandera2==1)
 			 {
 				xKilometro = totalKm(kilometros);
-				xPrecioAerolinea = precioTotalAerolineas(precioAerolineas);
-				xPrecioAerolineaCredito = precioAerolineasCredito(precioAerolineas);
-				xPrecioAerolineaDebito = precioAerolineasDebito(precioAerolineas);
-				xPrecioAerolineaBitcoin = precioAerolineasBitcoin (precioAerolineas);
-				xPrecioAerolineaDiferencia = precioAerolineasDiferenciaPrecio(precioAerolineas, precioLatam);
-				xPrecioAerolineaKm = precioAerolineasPorKm(precioAerolineas, kilometros);
+				xPrecioAerolinea = precioTotal(precioAerolineas);
+				xPrecioAerolineaCredito = precioConCredito(precioAerolineas);
+				xPrecioAerolineaDebito = precioConDebito(precioAerolineas);
+				xPrecioAerolineaBitcoin = precioConBitcoin (precioAerolineas);
+				xPrecioAerolineaKm = precioPorKm(precioAerolineas, kilometros);
 
-				xPrecioLatam = precioTotalLatam(precioLatam);
-				xPrecioLatamCredito = precioLatamCredito(precioLatam);
-				xPrecioLatamDebito = precioLatamDebito(precioLatam);
-				xPrecioLatamBitcoin = precioLatamBitcoin(precioLatam);
-				xPrecioLatamKm = precioLatamPorKm(precioLatam, kilometros);
+				xPrecioLatam = precioTotal(precioLatam);
+				xPrecioLatamCredito = precioConCredito(precioLatam);
+				xPrecioLatamDebito = precioConDebito(precioLatam);
+				xPrecioLatamBitcoin = precioConBitcoin (precioLatam);
+				xPrecioLatamKm = precioPorKm(precioLatam, kilometros);
+				xPrecioAerolineaDiferencia = preciosConDiferencia(precioAerolineas, precioLatam);
 
-				printf("\nYa se realizo la operacion que muestra los kilometros");
-				printf("\nYa se realizaron la operacion de mostrar el precio aerolinea");
-				printf("\nYa se realizaron la operacion de mostrar el precio latam");
-				printf("\nYa se realizaron las operaciones de mostrar el descuento con credito");
-				printf("\nYa se realizaron las operaciones de mostrar el interes con debito");
-				printf("\nYa se realizaron las operaciones de mostrar cuantos bitcoins sale");
-				printf("\nYa se realizaron las operaciones de mostrar la diferencia entre aerolinea y latam");
-				printf("\nYa se realizaron las operaciones de mostrar el precio x km\n");
+				//xPrecioLatam = precioTotalLatam(precioLatam);
+				//xPrecioLatamCredito = precioLatamCredito(precioLatam);
+				//xPrecioLatamDebito = precioLatamDebito(precioLatam);
+				//xPrecioLatamBitcoin = precioLatamBitcoin(precioLatam);
+				//xPrecioLatamKm = precioLatamPorKm(precioLatam, kilometros);
 
+				printf("\nYa se calcularon todos los costos\n");
 				bandera3=1;
 			 }// fin del if del case 3
 			 else if(bandera1==0)
@@ -134,16 +169,15 @@ int main()
 				printf("\n Latam: %.2f",xPrecioLatam);
 				printf("\n Precio con tarjeta de débito: %.2f",xPrecioLatamDebito);
 				printf("\n Precio con tarjeta de crédito: %.2f",xPrecioLatamCredito);
-				printf("\n Precio pagando con bitcoin: %.2f BTC",xPrecioLatamBitcoin);
+				printf("\n Precio pagando con bitcoin: %.11f BTC",xPrecioLatamBitcoin); //puse %.11f para el btc, ya que comprobado en la calculadora, con menos de 11 digitos la cuenta no da bien.
 				printf("\n Precio unitario: %.2f",xPrecioLatamKm);
 
 				printf("\n\n Aerolinea: %.2f",xPrecioAerolinea);
 				printf("\n Precio con tarjeta de débito: %.2f",xPrecioAerolineaDebito);
 				printf("\n Precio con tarjeta de crédito: %.2f",xPrecioAerolineaCredito);
-				printf("\n Precio pagando con bitcoin: %.2f BTC",xPrecioAerolineaBitcoin);
+				printf("\n Precio pagando con bitcoin: %.11f BTC",xPrecioAerolineaBitcoin); //puse %.11f para el btc, ya que comprobado en la calculadora, con menos de 11 digitos la cuenta no da bien.
 				printf("\n Precio unitario: %.2f",xPrecioAerolineaKm);
 				printf("\n La diferencia de precio es: %.2f\n",xPrecioAerolineaDiferencia);
-
 				bandera4=1;
 			 }
 
@@ -166,36 +200,36 @@ int main()
 			 case 5:
 		     if(bandera1==0 && bandera2==0 && bandera3==0 && bandera4==0)
 		     {
-		    	xKilometroForzado = totalKmFozado(kilometroForzado);
-				xPrecioForzadoLatam = precioForzadoLatam(preciosForzadoLatam);
-				xPrecioLatamCreditoForzado = precioLatamCreditoForzado(preciosForzadoLatam);
-				xPrecioLatamDebitoForzado = precioLatamDebitoForzado(preciosForzadoLatam);
-				xPrecioLatamBitcoinForzado = precioLatamBitcoinForzado(preciosForzadoLatam);
-				xPrecioLatamKmForzado = precioLatamPorKmForzado(preciosForzadoLatam,kilometroForzado);
+		    	xKilometroForzado = totalKm(kilometroForzado);
+				xPrecioForzadoLatam = precioTotal(preciosForzadoLatam);
+				xPrecioLatamCreditoForzado = precioConCredito(preciosForzadoLatam);
+				xPrecioLatamDebitoForzado = precioConDebito(preciosForzadoLatam);
+				xPrecioLatamBitcoinForzado = precioConBitcoin(preciosForzadoLatam);
+				xPrecioLatamKmForzado = precioPorKm(preciosForzadoLatam,kilometroForzado);
 
 
-				xPrecioforzadoAerolinea = precioForzadoAerolinea(precioForzadoAerolineas);
-				xPrecioAerolineaCreditoForzado = precioAerolineasCreditoForzado(precioForzadoAerolineas);
-				xPrecioAerolineaDebitForzadoo = precioAerolineasDebitoForzado(precioForzadoAerolineas);
-				xPrecioAerolineaBitcoinForzado = precioAerolineasBitcoinForzado(precioForzadoAerolineas);
-				xPrecioAerolineaKmForzado = precioAerolineasPorKmForzado(precioForzadoAerolineas,kilometroForzado);
-				xPrecioAerolineaDiferenciaForzado = precioAerolineasDiferenciaPrecioForzado(precioForzadoAerolineas,preciosForzadoLatam);
+				xPrecioforzadoAerolinea = precioTotal(precioForzadoAerolineas);
+				xPrecioAerolineaCreditoForzado = precioConCredito(precioForzadoAerolineas);
+				xPrecioAerolineaDebitForzadoo = precioConDebito(precioForzadoAerolineas);
+				xPrecioAerolineaBitcoinForzado = precioConBitcoin(precioForzadoAerolineas);
+				xPrecioAerolineaKmForzado = precioPorKm(precioForzadoAerolineas,kilometroForzado);
+				xPrecioAerolineaDiferenciaForzado = preciosConDiferencia(precioForzadoAerolineas,preciosForzadoLatam);
 
 				printf("KMS ingresados: %.2f", xKilometroForzado);
 				printf("\n Latam: %.2f",xPrecioForzadoLatam);
 				printf("\n Precio con tarjeta de débito: %.2f",xPrecioLatamDebitoForzado);
 				printf("\n Precio con tarjeta de crédito: %.2f",xPrecioLatamCreditoForzado);
-				printf("\n Precio pagando con bitcoin: %.2f BTC",xPrecioLatamBitcoinForzado);
+				printf("\n Precio pagando con bitcoin: %.11f BTC",xPrecioLatamBitcoinForzado);
 				printf("\n Precio unitario: %.2f",xPrecioLatamKmForzado);
 
 				printf("\n\n Aerolinea: %.2f",xPrecioforzadoAerolinea);
 				printf("\n Precio con tarjeta de débito: %.2f",xPrecioAerolineaDebitForzadoo);
 				printf("\n Precio con tarjeta de crédito: %.2f",xPrecioAerolineaCreditoForzado);
-				printf("\n Precio pagando con bitcoin: %.2f BTC",xPrecioAerolineaBitcoinForzado);
+				printf("\n Precio pagando con bitcoin: %.11f BTC",xPrecioAerolineaBitcoinForzado);
 				printf("\n Precio unitario: %.2f",xPrecioAerolineaKmForzado);
 				printf("\n La diferencia de precio es: %.2f\n",xPrecioAerolineaDiferenciaForzado);
 				bandera5=1;
-		     }
+		     }//fin if
 
 		     if(bandera1 == 1)
 		     {

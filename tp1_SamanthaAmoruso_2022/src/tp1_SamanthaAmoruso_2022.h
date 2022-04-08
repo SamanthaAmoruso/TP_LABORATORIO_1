@@ -20,18 +20,38 @@
  */
 int menu();
 
+/** @brief muestra los kilometros
+ *
+ * @return devuelve los kilometros que se puso
+ */
 float totalKm(float kilometros);
 
-float precioTotalAerolineas(float precioAerolineas);
+/** @brief muestra el precio de aerolinea con descuento
+ *
+ * @return devuelve el descuento de la aerolinea
+ */
+float precioConDebito(float precio);
 
-float precioAerolineasDebito(float precioAerolineas);
+/** @brief muestra el precio de aerolinea con aumento del 25
+ *
+ * @return devuelve el aumento de la aerolinea
+ */
+float precioConCredito(float precio);
 
-float precioAerolineasCredito(float precioAerolineas);
+/** @brief muestra el valor unitario de la aerolinea
+ *
+ * @return devuelve el valor unitario
+ */
+float precioPorKm(float precio, float kilometros);
 
-float precioAerolineasPorKm(float precioAerolineas, float kilometros);
+/** @brief muestra el valor de la aerolinea pagada el btc
+ *
+ * @return devuelve lo que vale en btc
+ */
+float precioConBitcoin(float precio);
 
-float precioAerolineasBitcoin(float precioAerolineas);
 
+//-------------------------------------------------------//
 float precioTotalLatam(float precioLatam);
 
 float precioLatamDebito(float precioLatam);
@@ -42,10 +62,9 @@ float precioLatamPorKm(float precioLatam, float kilometros);
 
 float precioLatamBitcoin(float precioLatam);
 
-float precioAerolineasDiferenciaPrecio(float precioAerolineas, float precioLatam);
+float preciosConDiferencia(float precioAerolineas, float precioLatam);
 
-
-
+//---------------------------------------------//
 
 float totalKmFozado(float kilometroForzado);
 
@@ -74,10 +93,9 @@ float precioAerolineasBitcoinForzado(float precioForzadoAerolineas);
 float precioAerolineasDiferenciaPrecioForzado(float precioForzadoAerolineas, float preciosForzadoLatam);
 
 int sonLetras(char cadena[]);
-/**
- * @fn funcion son letras marca si ingreso letras
- * @brief te confirma si lo ingresado son letras o numeros
+
+float precioTotal(float precio);
+/** @brief muestra el precio de aerolinea/latam/forzado
  *
- * @param el char de cadena
- * return -1 si son letras y 1 si son numeros
+ * @return devuelve el precio de correspondiente.
  */
