@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : tp2_SamanthaAmoruso_2022.c
- Author      : 
+ Author      : Sami
  Version     :
  Copyright   : Your copyright notice
  Description : Hello World in C, Ansi-style
@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
-#define T 200
+#define T 2000
 #include "ArrayPassenger.h"
 
 int main(void)
@@ -41,6 +41,7 @@ int main(void)
 		printf("- - El sistema no pudo inicializarse - - \n");
 		printf("-----------------------------------------\n");
 	}// fin del else
+
 
 	do{
 

@@ -136,9 +136,9 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 				    gets(cadena);
 					verificacion = sonLetras(cadena);
 
-				    while (verificacion == -1)
+				    while (verificacion == -1 || strlen(cadena) > 51)
 				    {
-						printf("no ingresaste letras, reingrese el Nombre: \n");
+						printf("no ingresaste letras o el nombre fue muy largo, reingrese el Nombre: \n");
 						fflush(stdin);
 						gets(cadena);
 						verificacion = sonLetras(cadena);
@@ -149,9 +149,9 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 					fflush(stdin);
 					gets(cadena);
 					verificacion = sonLetras(cadena);
-					while (verificacion == -1)
+					while (verificacion == -1 || strlen(cadena) > 51)
 					{
-						printf("no ingresaste letras, reingrese el apellido: \n");
+						printf("no ingresaste letras o el apellido fue muy largo, reingrese el apellido: \n");
 						fflush(stdin);
 						gets(cadena);
 						verificacion = sonLetras(cadena);
@@ -175,16 +175,16 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 					fflush(stdin);
 					gets(cadena);
 					verificacion = sonLetras(cadena);
-					while (verificacion == -1)
+					while (verificacion == -1 || strlen(cadena) > 10)
 					{
 
-						printf("no ingresaste letras, reingrese codigo del vuelo: \n");
+						printf("no ingresaste letras o fue un codigo muy largo, reingrese codigo de vuelo: \n");
 						gets(cadena);
 						verificacion = sonLetras(cadena);
 					}
 					strcpy(listaDePasajeros[i].flycode, cadena);
 
-					printf("Ingrese un tipo de pasajero: ");
+					printf("Ingrese un tipo de pasajero\n");
 					fflush(stdin);
 					gets(cadena);
 					verificacion = sonLetras(cadena);
@@ -196,6 +196,7 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 						verificacion = sonLetras(cadena);
 					}
                     listaDePasajeros[i].typePassenger = atoi(cadena);
+
 
 				listaDePasajeros[libre].id = *identificador;
 				(*identificador) ++;
@@ -232,6 +233,7 @@ int sonLetras(char cadena[])
       }// fin del for
 
 // devuelve 1 si son letras, devuelve -1 si son numeros
+
 return todoOk;
 }// fin de la funcion sonLetras
 
@@ -241,7 +243,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 	   int indice = -1;
  	   int verificacion;
  	   char cadena[50];
- 	   int banderaEmpleado = -1;
+ 	   int banderaPasajero = -1;
        int auxiliarModif = 0;
 
       printPassengers(listaDePasajeros, tam);
@@ -250,7 +252,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 	  if (auxiliarModif > tam)
 	  {
 		  printf("el id supera el tamaño, ingrese nuevamente\n ");
-		  banderaEmpleado=1;
+		  banderaPasajero=1;
 	  }
 
 	  if (auxiliarModif <= tam)
@@ -260,7 +262,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 			  if(listaDePasajeros[i].id == auxiliarModif && listaDePasajeros[i].isEmpty == OCUPADO)
 			  {
 				  printf("ID encontrada ");
-				  banderaEmpleado=0;
+				  banderaPasajero=0;
 				  break;
 			  }//fin if
 			  else
@@ -273,7 +275,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 	  }// fin del if
 
-	  if (banderaEmpleado == 0)
+	  if (banderaPasajero == 0)
 	  {
 		  printf("\nIngrese lo que quiere modificar de ese pasajero: \n 1.nombre\n 2.apellido\n 3.precio\n 4.codigo de vuelo\n 5.tipo de pasajeros\n");
 		  scanf("%d%*c", &modificacion);
@@ -288,9 +290,9 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 		  			for(int i = 0 ; i < tam ; i++)
 		  			{
-		  				while (verificacion == -1)
+		  				while (verificacion == -1 || strlen(cadena) > 51)
 						{
-							printf("no ingresaste letras, reingrese el Nombre: \n");
+							printf("no ingresaste letras o el nombre fue muy largo, reingrese el Nombre: \n");
 							fflush(stdin);
 							gets(cadena);
 							verificacion = sonLetras(cadena);
@@ -316,9 +318,9 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 		  			for(int i = 0 ; i < tam ; i++)
 		  			{
-		  				while (verificacion == -1)
+		  				while (verificacion == -1 || strlen(cadena) > 51)
 						{
-							printf("no ingresaste letras, reingrese el Nombre: \n");
+							printf("no ingresaste letras o el apellido fue muy largo, reingrese el Apellido: \n");
 							fflush(stdin);
 							gets(cadena);
 							verificacion = sonLetras(cadena);
@@ -363,16 +365,16 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 		  		  break;
 
 		  		  case 4:
-		  			printf("Ingrese el nuevo codigo de pasajero:\n ");
+		  			printf("Ingrese el nuevo codigo de vuelo:\n ");
 					fflush(stdin);
 					gets(cadena);
 					verificacion = sonLetras(cadena);
 
 					for(int i = 0 ; i < tam ; i++)
 					{
-						while (verificacion == -1)
+						while (verificacion == -1 || strlen(cadena) > 10)
 						{
-							printf("no ingresaste letras, reingrese el Nombre: \n");
+							printf("no ingresaste letras o su codigo fue muy largo, reingrese el codigo de vuelo: \n");
 							fflush(stdin);
 							gets(cadena);
 							verificacion = sonLetras(cadena);
@@ -606,5 +608,4 @@ void superanPrecioPromedio(ePasajero listaDePasajeros[], int tam, float promedio
 	}// fin del if de !=NULL
 
 }// fin de la funcion
-
 
