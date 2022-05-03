@@ -1,7 +1,7 @@
 /*
  * status.c
  *
- *  Created on: 2 may. 2022
+ *  Created on: 1 may. 2022
  *      Author: User
  */
 
@@ -16,7 +16,7 @@ int listarStatus(eStatus status[], int tam)
 
 	if (status != NULL && tam > 0)
 	{
-		printf("   *** Lista de Sectores  ***\n");
+		printf("   *** Lista de los Status  ***\n");
 		printf("  Id    Descripcion\n");
 		printf("-----------------------\n");
 		for (int i = 0; i < tam; i++)
