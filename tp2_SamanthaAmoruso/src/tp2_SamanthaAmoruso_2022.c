@@ -8,14 +8,16 @@
  ============================================================================
  */
 
+#include "status.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
 #define T 2000
+#define TAMS 3
 #include "ArrayPassenger.h"
 
-int main(void)
+int main()
 {
 	setbuf(stdout,NULL);
 	fflush(stdin);
@@ -23,6 +25,13 @@ int main(void)
 	char seguir = 's';
 	ePasajero listaDePasajeros[T];
 	ePasajero auxiliar;
+	eStatus status[TAMS] =
+	{
+	        {1, "Activo"},
+	        {2, "Demorado"},
+	        {3, "Cancelado"}
+	};
+
 	int identificador = 1;
 	int bandera1 = 0;
 	int opcion;
@@ -42,14 +51,14 @@ int main(void)
 		printf("-----------------------------------------\n");
 	}// fin del else
 
-
 	do{
 
 		switch(menu())
 		{
 			case 1:
 				addPassenger(listaDePasajeros, T, &identificador, auxiliar.nombre, auxiliar.apellido,
-						    auxiliar.price , auxiliar.flycode, auxiliar.typePassenger);
+						    auxiliar.price, auxiliar.flycode, auxiliar.typePassenger, auxiliar.statusFlight);
+
 				bandera1=1;
 			break;
 
@@ -60,7 +69,7 @@ int main(void)
 				}
 				else
 				{
-					modificarPasajero(listaDePasajeros, T);
+					modificarPasajero(listaDePasajeros, T, status, TAMS);
 				}
 			break;
 
@@ -71,7 +80,7 @@ int main(void)
 				}
 				else
 				{
-					removePassenger(listaDePasajeros , T);
+					removePassenger(listaDePasajeros , T, status, TAMS);
 				}
 			break;
 
@@ -82,27 +91,28 @@ int main(void)
 				}
 				else
 				{
-					printf("1) listado de pasajeros ordenados alfabeticamente por apellido ascendente y tipo de pasajero\n");
-					printf("2) listado de pasajeros ordenados alfabeticamente por apellido descendente y tipo de pasajero\n");
-					printf("3) para obtener un informe sobre los Precios\n");
-					printf("4) Para obtener un listado de los pasajeros por Código de vuelo y estados de vuelos 'ACTIVOS' ");
+					printf("1) Listado de pasajeros ordenados alfabeticamente por apellido ascendente y tipo de pasajero\n");
+					printf("2) Listado de pasajeros ordenados alfabeticamente por apellido descendente y tipo de pasajero\n");
+					printf("3) Para obtener un informe sobre los Precios\n");
+					printf("4) Listado de los pasajeros por Código de vuelo y estados de vuelos 'ACTIVOS' de forma ascendente\n");
+					printf("5) Listado de los pasajeros por codigo de vuelo y estados de vuelo activos de forma descendente \n");
 					scanf("%d", &opcion);
 					switch(opcion)
 					{
 						case 1:
 							printf("muestra los pasajeros sin ordenar\n");
-							printPassengers(listaDePasajeros, T);
+							printPassengers(listaDePasajeros, T, status, TAMS);
 							sortPassengers(listaDePasajeros, T, 1);
 							printf("muestra los pasajeros ordenados de forma ascendente\n");
-							printPassengers(listaDePasajeros, T);
+							printPassengers(listaDePasajeros, T, status, TAMS);
 						break;
 
 						case 2:
 							printf("muestra los pasajeros sin ordenar\n");
-							printPassengers(listaDePasajeros, T);
+							printPassengers(listaDePasajeros, T, status, TAMS);
 							sortPassengers(listaDePasajeros, T, 0);
 							printf("muestra los pasajeros ordenados de forma descendente\n");
-							printPassengers(listaDePasajeros, T);
+							printPassengers(listaDePasajeros, T, status, TAMS);
 						break;
 
 						case 3:
@@ -111,11 +121,19 @@ int main(void)
 						break;
 
 						case 4:
+							printf("muestra a los pasajeros sin ordenar\n");
+							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 1);
+							printf("muestra los pasajeros ordenados de forma Ascendente\n");
+						break;
 
+						case 5:
+							printf("muestra a los pasajeros sin ordenar\n");
+							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 0);
+							printf("muestra los pasajeros ordenados de forma Descendente\n");
 						break;
 
 						default:
-							printf("opcion equivocada, elija una opcion del 1 al 4: \n");
+							printf("opcion equivocada, elija una opcion del 1 al 5: \n");
 						break;
 					}//fin swtich
 
@@ -123,6 +141,10 @@ int main(void)
 		    break;
 
 			case 5:
+				//ACA IRIA EL ALTA FORZADA
+			break;
+
+			case 6:
 				if (bandera1 == 0)
 				{
 					printf("¿seguro que desea salir? ya que usted no ingreso Pasajeros\n");
@@ -133,7 +155,7 @@ int main(void)
 		    break;
 
 			default:
-				printf("opcion equivocada, elija una opcion del 1 al 5: \n");
+				printf("opcion equivocada, elija una opcion del 1 al 6: \n");
 			break;
 		}//fin de switch
 

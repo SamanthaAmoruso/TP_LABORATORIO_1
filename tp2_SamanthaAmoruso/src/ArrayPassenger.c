@@ -11,6 +11,7 @@
 #define VACIO 0
 #define OCUPADO 1
 #include "ArrayPassenger.h"
+#include "status.h"
 
 int menu ()
 {
@@ -21,7 +22,8 @@ int menu ()
     printf(" 2.Modificacion de un pasajero\n");
     printf(" 3.Baja de un pasajero\n");
     printf(" 4.Informar sobre los pasajeros \n");
-    printf(" 5.Salir del menu\n");
+    printf(" 5.Alta harcodeo\n");
+    printf(" 6.Salir del menu\n");
     printf("-----------------------------------------\n");
 
     printf("\n Elija una opcion: ");
@@ -33,7 +35,7 @@ int menu ()
 
 }// fin del menu
 
-int inicializarPasajeros(ePasajero listaDePasajeros[], int tam)
+int inicializarPasajeros(ePasajero* listaDePasajeros, int tam)
 {
    int retorno = 0;
    if(listaDePasajeros != NULL && tam > 0)
@@ -41,18 +43,17 @@ int inicializarPasajeros(ePasajero listaDePasajeros[], int tam)
 	   for(int i= 0; i < tam; i++)
 	   {
 		   listaDePasajeros[i].isEmpty = VACIO;
-		   retorno = 1;
 	   }// fin del for
+	   retorno = 1;
 
    }// fin del if
 
    return retorno;
 }// fin de inicializar pasajeros
 
-int buscarLibre(ePasajero listaDePasajeros[], int tam)
+int buscarLibre(ePasajero* listaDePasajeros, int tam)
 {
 	int lugarLibre =-1;
-
 	if(listaDePasajeros != NULL && tam > 0)
 	{
 		for(int i=0; i < tam; i++)
@@ -70,7 +71,7 @@ int buscarLibre(ePasajero listaDePasajeros[], int tam)
 return lugarLibre;
 }// fin de buscar libre
 
-int buscarPasajero(ePasajero listaDePasajeros[], int tam, int identificador)
+int buscarPasajero(ePasajero* listaDePasajeros, int tam, int identificador)
 {
 	int indice = -1;
 	if (listaDePasajeros != NULL && tam > 0)
@@ -89,38 +90,62 @@ int buscarPasajero(ePasajero listaDePasajeros[], int tam, int identificador)
  return indice;
 } // fin de buscaPasajero
 
-int printPassengers(ePasajero listaDePasajeros[], int tam)
+void printPassenger(ePasajero unPasajero, int tam, eStatus status[], int tams)
+{
+	char auxiliarChar[15];
+	char auxiliarCharDos[15];
+
+	mostrarTipoPasajero(unPasajero.typePassenger , auxiliarChar);
+    //mostrarStatusVuelo(listaDePasajeros[i].statusFlight,auxiliarCharDos);
+	cargarDescripcionStatus(status, tams,unPasajero.statusFlight, auxiliarCharDos);
+
+	printf("%2d %8s %10s %10.2f %10s %7d %s %5d %s\n ", unPasajero.id,
+			unPasajero.nombre,
+			unPasajero.apellido,
+		    unPasajero.price,
+			unPasajero.flycode,
+			unPasajero.typePassenger,
+		    auxiliarChar,
+			unPasajero.statusFlight,
+	        auxiliarCharDos);
+}
+
+int printPassengers(ePasajero* listaDePasajeros, int tam, eStatus status[], int tams)
 {
 	int retorno = -1;
 
-	if(listaDePasajeros != NULL && tam > 0)
+	if(listaDePasajeros != NULL && tam > 0 && status !=NULL && tams > 0)
 	{
+		 printf("-------------------------- LISTA DE PASAJEROS ---------------------------------\n");
+	     printf("ID   Nombre    Apellido    Precio    flycode    typePassenger  statusVuelo \n");
+	     printf("-------------------------------------------------------------------------------\n");
+
 		for(int i=0; i<tam; i++)
 		 {
 			if(listaDePasajeros[i].isEmpty == OCUPADO)
 			{
-				printf("%d %s %s %.2f %s %d \n ", listaDePasajeros[i].id,
-											   listaDePasajeros[i].nombre,
-											   listaDePasajeros[i].apellido,
-											   listaDePasajeros[i].price,
-											   listaDePasajeros[i].flycode,
-											   listaDePasajeros[i].typePassenger);
+				printPassenger(listaDePasajeros[i],tam, status,tams);
 				retorno = 1;
 			}// fin del if
 
 		 }// fin del for
 
 	}// fin del if del NULL
+	else
+	{
+		printf("no se puede mostrar la lista\n");
+	}
 
 return retorno;
 } // fin de mostrar Pasajeros
 
-int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char nombre[], char apellido[], float precio, char codigoVuelo[], int tipoPasajero)
+int addPassenger(ePasajero* listaDePasajeros, int tam, int* identificador, char nombre[], char apellido[], float precio, char codigoVuelo[], int tipoPasajero, int statusVuelo)
 {
 	int todoOk = -1;
 	int verificacion;
-	char cadena[50];
+	char cadena[100];
     int libre;
+    int aux=0;
 
     libre = buscarLibre(listaDePasajeros, tam);
 
@@ -130,7 +155,6 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
     	{
 			if(listaDePasajeros[i].isEmpty == VACIO)
 			{
-
 					printf("ingrese nombre: ");
 				    fflush(stdin);
 				    gets(cadena);
@@ -184,18 +208,27 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 					}
 					strcpy(listaDePasajeros[i].flycode, cadena);
 
-					printf("Ingrese un tipo de pasajero\n");
+					printf("Ingrese un tipo de pasajero, 1)menor , 2)adulto, 3)Jubilado\n");
 					fflush(stdin);
-					gets(cadena);
-					verificacion = sonLetras(cadena);
-					while (verificacion == 1)
+					scanf("%d",&aux);
+					while(aux < 0 || aux > 3)
 					{
-
-						printf("no ingresaste numeros, reingrese tipo del pasajero: \n");
-						gets(cadena);
-						verificacion = sonLetras(cadena);
+					   printf("Error,reIngrese una Aerolinea :1)menor , 2)adulto, 3)Jubilado\n");
+					   fflush(stdin);
+					   scanf("%d", &aux);
 					}
-                    listaDePasajeros[i].typePassenger = atoi(cadena);
+					listaDePasajeros[i].typePassenger = aux;
+
+					printf("ingrese status del vuelo. 1. para Activo, 2. para Demorado y 3. para Cancelado\n");
+					fflush(stdin);
+					scanf("%d",&aux);
+					while(aux < 0 || aux > 3)
+					{
+					   printf("Error,reIngrese status del vuelo. 1. para vuelo activo, 2 para demorado y 3 para cancelado\n");
+					   fflush(stdin);
+					   scanf("%d", &aux);
+					}
+					listaDePasajeros[i].statusFlight = aux;
 
 
 				listaDePasajeros[libre].id = *identificador;
@@ -205,11 +238,12 @@ int addPassenger(ePasajero listaDePasajeros[], int tam, int* identificador, char
 				printf("\ningresaste correctamente al pasajero\n\n");
 				todoOk = 0;
 				break;
-			}// fin del if bebe
+
+			}// fin del if del vacio
 
 		}// fin del for
 
-    }// fin del if madre
+    }// fin del if del null
     else
     {
     	printf("\nUsted llego al limite de pasajeros que puede ingresar \n");
@@ -237,16 +271,16 @@ int sonLetras(char cadena[])
 return todoOk;
 }// fin de la funcion sonLetras
 
-int modificarPasajero(ePasajero listaDePasajeros[], int tam)
+int modificarPasajero(ePasajero* listaDePasajeros, int tam, eStatus status[], int tams)
 {
 	   int modificacion;
 	   int indice = -1;
  	   int verificacion;
- 	   char cadena[50];
+ 	   char cadena[100];
  	   int banderaPasajero = -1;
        int auxiliarModif = 0;
 
-      printPassengers(listaDePasajeros, tam);
+      printPassengers(listaDePasajeros, tam, status , tams);
 	  printf("ingrese el id del pasajero que desea modificar: \n");
 	  scanf("%d", &auxiliarModif);
 	  if (auxiliarModif > tam)
@@ -307,7 +341,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 		  			 }// fin del for
 		  			printf("asi quedo editado su pasajero:\n ");
-		  			printPassengers(listaDePasajeros, tam);
+		  			printPassengers(listaDePasajeros, tam, status, tams);
 		  		  break;
 
 		  		  case 2:
@@ -334,7 +368,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 		  			 }// fin del for
 		  			printf("asi quedo editado su pasajero: \n");
-		  			printPassengers(listaDePasajeros, tam);
+		  			printPassengers(listaDePasajeros, tam, status, tams);
 		  		  break;
 
 		  		  case 3:
@@ -361,7 +395,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 		  			  }// fin del for
 		  			  printf("asi quedo editado su pasajero: \n ");
-		  			  printPassengers(listaDePasajeros, tam);
+		  			printPassengers(listaDePasajeros, tam, status, tams);
 		  		  break;
 
 		  		  case 4:
@@ -389,7 +423,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 					 }// fin del for
 					printf("asi quedo editado su pasajero:\n ");
-					printPassengers(listaDePasajeros, tam);
+					printPassengers(listaDePasajeros, tam, status, tams);
 		  		  break;
 
 		  		  case 5:
@@ -416,7 +450,7 @@ int modificarPasajero(ePasajero listaDePasajeros[], int tam)
 
 					  }// fin del for
 				   printf("asi quedo editado su pasajeros: \n ");
-				   printPassengers(listaDePasajeros, tam);
+					printPassengers(listaDePasajeros, tam, status, tams);
 		  		  break;
 
 		  		  default:
@@ -430,13 +464,13 @@ return indice;
 } //fin de modificar pasajero
 
 
-int removePassenger(ePasajero listaDePasajeros[], int tam)
+int removePassenger(ePasajero* listaDePasajeros, int tam, eStatus status[], int tams)
 {
 	int todoOk = -1;
 	int auxiliarBaja =0;
 	if(listaDePasajeros != NULL && tam > 0)
 	{
-		printPassengers(listaDePasajeros, tam);
+		printPassengers(listaDePasajeros, tam, status, tams);
 		printf("Ingrese el ID del pasajero que desea dar de baja: ");
 		scanf("%d", &auxiliarBaja);
 		if (auxiliarBaja > tam)
@@ -467,7 +501,7 @@ return todoOk;
 }// fin de baja del pasajero
 
 
-int findPassengersById(ePasajero listaDePasajeros[], int tam, int id)
+int findPassengersById(ePasajero* listaDePasajeros, int tam, int id)
 {
     int indice = -1;
     if(listaDePasajeros != NULL && tam > 0)
@@ -487,7 +521,7 @@ int findPassengersById(ePasajero listaDePasajeros[], int tam, int id)
 return indice;
 }//fin findPassengersByid
 
-int sortPassengers(ePasajero listaDePasajeros[], int tam, int orden)
+int sortPassengers(ePasajero* listaDePasajeros, int tam, int orden)
 {
     int todoOk = 0;
     ePasajero auxiliarPasajero;
@@ -540,7 +574,7 @@ int sortPassengers(ePasajero listaDePasajeros[], int tam, int orden)
 return todoOk;
 }// fin de la funcion ordenarPasajeros
 
-int mostrarPrecios(ePasajero listaDePasajeros[], int tam)
+int mostrarPrecios(ePasajero* listaDePasajeros, int tam)
 {
 	int retorno =0;
 
@@ -562,7 +596,7 @@ int mostrarPrecios(ePasajero listaDePasajeros[], int tam)
 return retorno;
 } // fin de mostrar precio
 
-float sumarPreciosYPromediar(ePasajero listaDePasajeros[], int tam)
+float sumarPreciosYPromediar(ePasajero* listaDePasajeros, int tam)
 {
     int contador= 0;
     float acumulador = 0;
@@ -587,7 +621,7 @@ float sumarPreciosYPromediar(ePasajero listaDePasajeros[], int tam)
 return promedio;
 }// fin de la funcion sumar precios y promediar
 
-void superanPrecioPromedio(ePasajero listaDePasajeros[], int tam, float promedio)
+void superanPrecioPromedio(ePasajero* listaDePasajeros, int tam, float promedio)
 {
 	if(listaDePasajeros != NULL && tam > 0)
 	{
@@ -608,4 +642,61 @@ void superanPrecioPromedio(ePasajero listaDePasajeros[], int tam, float promedio
 	}// fin del if de !=NULL
 
 }// fin de la funcion
+
+void mostrarTipoPasajero(int idTipoPasajero, char nombre[15])
+{
+    char tipoPasajero[3][15] = {"Menor", "Adulto", "Jubilado"};
+
+    if((idTipoPasajero > 0 && idTipoPasajero < 4) && nombre != NULL)
+    {
+    	idTipoPasajero = idTipoPasajero -1;
+        strcpy(nombre, tipoPasajero[idTipoPasajero]);
+    }//fin if
+
+}//fin void
+
+int sortPassengersByCode(ePasajero* listaDePasajeros, int tam,eStatus status[], int tams, int orden)
+{
+	int todoOk = 0;
+	ePasajero auxiliarPasajero;
+
+	if(listaDePasajeros !=NULL && tam > 0 && status !=NULL && tams > 0)
+	{
+		for (int i = 0; i < tam - 1; i++)
+		{
+			for (int j = i + 1; j < tam; j++)
+			{
+				if(strcmp(listaDePasajeros[i].flycode, listaDePasajeros[j].flycode) > 0 && orden == 1)
+				{
+					auxiliarPasajero = listaDePasajeros[i];
+					listaDePasajeros[i] = listaDePasajeros[j];
+					listaDePasajeros[j] = auxiliarPasajero;
+					todoOk = 1;
+				}//fin del otro if
+				else if (strcmp(listaDePasajeros[i].flycode, listaDePasajeros[j].flycode) < 0 && orden == 0)
+				{
+					auxiliarPasajero = listaDePasajeros[i];
+					listaDePasajeros[i] = listaDePasajeros[j];
+					listaDePasajeros[j] = auxiliarPasajero;
+					todoOk = 1;
+				}
+
+			}//fin segundo for
+
+		}//fin primer for
+
+		for (int i = 0; i < tam; i++)
+		{
+			if(listaDePasajeros[i].statusFlight == 1 && listaDePasajeros[i].isEmpty == OCUPADO)
+			{
+				printPassenger(listaDePasajeros[i],tam, status,tams);
+			}
+		}
+
+	}//fin validacion Null
+
+return todoOk;
+}//fin de la funcion
+
+
 
