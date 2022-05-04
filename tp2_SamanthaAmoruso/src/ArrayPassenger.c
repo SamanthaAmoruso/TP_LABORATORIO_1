@@ -779,11 +779,9 @@ int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pI
 			listaDePasajeros[iPasajero].statusFlight=statusFlighs[i];
 			listaDePasajeros[iPasajero].isEmpty= OCUPADO;
 			contador++;
-        }
-        //listaDePasajeros[iPasajero].id = *pId;
-		//(*pId) ++;
+        }//fin for
 
-    }
+    }//fin if null
 
     return contador;
 }
