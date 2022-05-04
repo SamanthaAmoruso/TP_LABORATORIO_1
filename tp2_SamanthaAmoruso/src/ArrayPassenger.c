@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define VACIO 0
 #define OCUPADO 1
 #include "ArrayPassenger.h"
@@ -504,7 +505,7 @@ return todoOk;
 int findPassengersById(ePasajero* listaDePasajeros, int tam, int id)
 {
     int indice = -1;
-    if(listaDePasajeros != NULL && tam > 0)
+    if(listaDePasajeros != NULL && tam > 0 && id > 0)
     {
         for(int i= 0; i < tam; i++)
         {
@@ -534,7 +535,9 @@ int sortPassengers(ePasajero* listaDePasajeros, int tam, int orden)
     		{
     			for (int j = i + 1; j < tam; j++)
 				{
-					if (listaDePasajeros[i].typePassenger == listaDePasajeros[j].typePassenger || (listaDePasajeros[i].typePassenger > listaDePasajeros[j].typePassenger) || strcmp(listaDePasajeros[i].apellido,listaDePasajeros[j].apellido) >= 0 )
+					if (strcmp(listaDePasajeros[i].apellido,listaDePasajeros[j].apellido) >=0 ||
+						(strcmp(listaDePasajeros[i].apellido,listaDePasajeros[j].apellido) ==0 &&
+						(listaDePasajeros[i].typePassenger > listaDePasajeros[j].typePassenger)))
 					{
 						   auxiliarPasajero = listaDePasajeros[i];
 						   listaDePasajeros[i] = listaDePasajeros[j];
@@ -554,7 +557,9 @@ int sortPassengers(ePasajero* listaDePasajeros, int tam, int orden)
 			{
 				for(int j= i+1; j < tam; j++)
 				{
-					if(strcmp(listaDePasajeros[i].apellido, listaDePasajeros[j].apellido) < 0 || (strcmp(listaDePasajeros[i].apellido, listaDePasajeros[j].apellido) ==0 && listaDePasajeros[i].typePassenger < listaDePasajeros[j].typePassenger))
+					if(strcmp(listaDePasajeros[i].apellido, listaDePasajeros[j].apellido) <=0 ||
+					  (strcmp(listaDePasajeros[i].apellido, listaDePasajeros[j].apellido) ==0 &&
+					  (listaDePasajeros[i].typePassenger < listaDePasajeros[j].typePassenger)))
 					{
 
 					   auxiliarPasajero = listaDePasajeros[i];
@@ -672,6 +677,7 @@ int sortPassengersByCode(ePasajero* listaDePasajeros, int tam,eStatus status[], 
 					listaDePasajeros[i] = listaDePasajeros[j];
 					listaDePasajeros[j] = auxiliarPasajero;
 					todoOk = 1;
+
 				}//fin del otro if
 				else if (strcmp(listaDePasajeros[i].flycode, listaDePasajeros[j].flycode) < 0 && orden == 0)
 				{
@@ -679,17 +685,19 @@ int sortPassengersByCode(ePasajero* listaDePasajeros, int tam,eStatus status[], 
 					listaDePasajeros[i] = listaDePasajeros[j];
 					listaDePasajeros[j] = auxiliarPasajero;
 					todoOk = 1;
+
 				}
 
 			}//fin segundo for
 
 		}//fin primer for
 
-		for (int i = 0; i < tam; i++)
+		for (int i = 0; i < tam - 1; i++)
 		{
-			if(listaDePasajeros[i].statusFlight == 1 && listaDePasajeros[i].isEmpty == OCUPADO)
+			if(listaDePasajeros[i].statusFlight == 1  && listaDePasajeros[i].isEmpty == OCUPADO )
 			{
 				printPassenger(listaDePasajeros[i],tam, status,tams);
+
 			}
 		}
 
@@ -700,3 +708,82 @@ return todoOk;
 
 
 
+int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pId)
+{
+    int contador=-1;
+    int iPasajero=0;
+
+    int ids[10]={1,2,3,4,5,6,7,8,9,10};
+
+    char nombres[10][25]={
+    	"Juan",
+    	"Daniela",
+    	"Lucia",
+    	"Mauro",
+    	"Diego",
+    	"Juana",
+    	"Miguel",
+    	"Luciano",
+    	"Mariana",
+    	"Analia"
+    };
+
+    char apellidos[10][25]={
+    	"Gutierrez",
+    	"Alvarez",
+    	"Romero",
+    	"Uzuca",
+    	"Maradona",
+    	"Manso",
+    	"Hernandez",
+    	"Pereyra",
+    	"Lopez",
+    	"Falconeri"
+    };
+
+    float prices[10]={30000.00, 23000.00, 20000.00, 105050.00, 85000.00, 110000.00, 50000.00, 92000.00, 67000.00, 72150.00};
+
+    char flyCodes[10][20]={
+    		"ascdsdg",
+    		"dfkszzas",
+    		"ldfsdfnz",
+    		"zisdtye",
+    		"pseddfh",
+    		"axsaery",
+    		"dlfjdfa",
+    		"kisdsgg",
+    	    "basFefg",
+    		"jsdgqsw",
+    };
+
+    int typePassengers[10]={1, 3, 1, 1, 2, 2, 3, 1, 3, 2};
+
+    int statusFlighs[10]={1, 1, 1, 2, 2, 1, 3, 1, 3, 1};
+    if(listaDePasajeros!=NULL && tam>0 && cant>=0 && cant<=tam && pId!=NULL)
+    {
+    	contador=1;
+        for(int i=0;i<cant;i++)
+        {
+        	iPasajero= findPassengersById(listaDePasajeros,tam ,ids[i]);
+
+        	if(iPasajero==-1)
+            {
+        		iPasajero= buscarLibre(listaDePasajeros, tam);
+            }
+        	listaDePasajeros[iPasajero].id=ids[i];
+			strcpy(listaDePasajeros[iPasajero].nombre, nombres[i]);
+			strcpy(listaDePasajeros[iPasajero].apellido, apellidos[i]);
+			listaDePasajeros[iPasajero].price=prices[i];
+			strcpy(listaDePasajeros[iPasajero].flycode, flyCodes[i]);
+			listaDePasajeros[iPasajero].typePassenger=typePassengers[i];
+			listaDePasajeros[iPasajero].statusFlight=statusFlighs[i];
+			listaDePasajeros[iPasajero].isEmpty= OCUPADO;
+			contador++;
+        }
+        //listaDePasajeros[iPasajero].id = *pId;
+		//(*pId) ++;
+
+    }
+
+    return contador;
+}

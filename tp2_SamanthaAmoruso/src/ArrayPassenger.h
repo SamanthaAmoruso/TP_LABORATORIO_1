@@ -192,4 +192,7 @@ void printPassenger(ePasajero unPasajero, int tam, eStatus status[], int tams);
  * @return 1 si mostro la lista y 0 si hubo error
  */
 
+int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pId);
+
+
 #endif /* ARRAYPASSENGER_H_ */

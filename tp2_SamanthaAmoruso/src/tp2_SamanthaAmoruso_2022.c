@@ -34,8 +34,10 @@ int main()
 
 	int identificador = 1;
 	int bandera1 = 0;
+	int banderaHarcodeo=0;
 	int opcion;
 	int devolucionDeInicializarPasajeros;
+	int pId=1;
 
 	devolucionDeInicializarPasajeros = inicializarPasajeros(listaDePasajeros, T);
 	if(devolucionDeInicializarPasajeros == 1)
@@ -63,7 +65,7 @@ int main()
 			break;
 
 			case 2:
-				if (bandera1==0)
+				if (bandera1==0 && banderaHarcodeo==0)
 				{
 					printf("\n error,no ingresaste Pasajeros\n\n");
 				}
@@ -74,7 +76,7 @@ int main()
 			break;
 
 			case 3:
-				if (bandera1==0)
+				if (bandera1==0 && banderaHarcodeo==0)
 				{
 					printf("\n error,no ingresaste Pasajeros\n\n");
 				}
@@ -85,7 +87,7 @@ int main()
 			break;
 
 			case 4:
-				if (bandera1==0)
+				if (bandera1==0 && banderaHarcodeo==0)
 				{
 					printf("\n error,no ingresaste Pasajeros\n\n");
 				}
@@ -121,15 +123,13 @@ int main()
 						break;
 
 						case 4:
-							printf("muestra a los pasajeros sin ordenar\n");
-							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 1);
 							printf("muestra los pasajeros ordenados de forma Ascendente\n");
+							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 1);
 						break;
 
 						case 5:
-							printf("muestra a los pasajeros sin ordenar\n");
-							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 0);
 							printf("muestra los pasajeros ordenados de forma Descendente\n");
+							sortPassengersByCode(listaDePasajeros, T, status, TAMS, 0);
 						break;
 
 						default:
@@ -141,13 +141,22 @@ int main()
 		    break;
 
 			case 5:
-				//ACA IRIA EL ALTA FORZADA
+				if(bandera1==0)
+				{
+					harcodearPasajeros(listaDePasajeros,T , 9, &pId);
+					printf("usted ha harcodeado correctamente\n");
+					banderaHarcodeo=1;
+				}
+				else
+				{
+					printf("No se pueden harcodear pasajeros porque ya los ingreso manualmente\n");
+				}
 			break;
 
 			case 6:
-				if (bandera1 == 0)
+				if (bandera1 == 0 || banderaHarcodeo==0)
 				{
-					printf("¿seguro que desea salir? ya que usted no ingreso Pasajeros\n");
+					printf("¿seguro que desea salir? ya que usted no ingreso Pasajeros ni los harcodeo\n");
 				}
 				printf("si desea seguir escribe S sino N: \n");
 				fflush(stdin);
