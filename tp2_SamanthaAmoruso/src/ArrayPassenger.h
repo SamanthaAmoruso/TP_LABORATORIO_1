@@ -26,7 +26,7 @@ typedef struct
 }ePasajero;
 
 int menu();
-/** @brief  Muestra el menu para la modificacion de pasajeros
+/** @brief  Muestra el menu del ABM y ordenamiento de pasajeros
  *
  * @return Devuelve un entero, el numero que se muestra en el menu de pasajeros
  */
@@ -193,8 +193,20 @@ void printPassenger(ePasajero unPasajero, int tam, eStatus status[], int tams);
  */
 
 int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pId);
+/**
+ * @fn harcodea 10 pasajeros automaticamente
+ * @brief muestra los datos de 10 pasajeros
+ *
+ * @param el array de lista de pasajero
+ * @param  el tamaño del array de pasajero
+ * @param  int cant para la cantidad de veces que recorre
+ * @return -1 si hubo error
+ */
 
 int menuModificaciones();
-
+/** @brief  Muestra el menu para la modificacion de pasajeros
+ *
+ * @return Devuelve un entero, el numero que se muestra en el menu de pasajeros
+ */
 
 #endif /* ARRAYPASSENGER_H_ */
