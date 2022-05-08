@@ -691,7 +691,7 @@ int sortPassengersByCode(ePasajero* listaDePasajeros, int tam,eStatus status[], 
 
 		}//fin primer for
 
-		for (int i = 0; i < tam - 1; i++)
+		for (int i = 0; i < tam; i++)
 		{
 			if(listaDePasajeros[i].statusFlight == 1  && listaDePasajeros[i].isEmpty == OCUPADO )
 			{
