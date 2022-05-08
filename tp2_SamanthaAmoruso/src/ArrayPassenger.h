@@ -194,5 +194,7 @@ void printPassenger(ePasajero unPasajero, int tam, eStatus status[], int tams);
 
 int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pId);
 
+int menuModificaciones();
+
 
 #endif /* ARRAYPASSENGER_H_ */

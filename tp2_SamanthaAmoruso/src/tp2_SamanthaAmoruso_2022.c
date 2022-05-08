@@ -22,7 +22,7 @@ int main()
 	setbuf(stdout,NULL);
 	fflush(stdin);
 
-	char seguir = 's';
+	char seguir;
 	ePasajero listaDePasajeros[T];
 	ePasajero auxiliar;
 	eStatus status[TAMS] =
@@ -150,7 +150,7 @@ int main()
 			case 5:
 				if(bandera1==0)
 				{
-					harcodearPasajeros(listaDePasajeros,T , 9, &pId);
+					harcodearPasajeros(listaDePasajeros,T , 10, &pId);
 					printf("usted ha harcodeado correctamente\n");
 					banderaHarcodeo=1;
 				}
@@ -163,9 +163,9 @@ int main()
 			case 6:
 				if (bandera1 == 0 || banderaHarcodeo==0)
 				{
-					printf("¿seguro que desea salir? ya que usted no ingreso Pasajeros ni los harcodeo\n");
+					printf("¿seguro que desea salir? ya que usted no ingreso Pasajeros o no los harcodeo\n");
 				}
-				printf("si desea seguir escribe S sino N: \n");
+				printf("Si desea seguir escribe S sino N: \n");
 				fflush(stdin);
 				scanf("%c", &seguir);
 		    break;
@@ -175,7 +175,7 @@ int main()
 			break;
 		}//fin de switch
 
-	}while (seguir=='s');//fin del while
+	}while (seguir!='n');//fin del while
 
 return 0;
 }//fin del main

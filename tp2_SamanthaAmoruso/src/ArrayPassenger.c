@@ -16,7 +16,6 @@
 
 int menu ()
 {
-	fflush(stdin);
     int opcion;
 
     printf(" 1.Alta de un pasajero\n");
@@ -30,11 +29,27 @@ int menu ()
     printf("\n Elija una opcion: ");
 	scanf("%d", &opcion);
 
-    fflush(stdin);
-
-    return opcion;
-
+return opcion;
 }// fin del menu
+
+int menuModificaciones()
+{
+    int opcion;
+
+    printf(" 1.Modificar nombre\n");
+    printf(" 2.Modificar apellido\n");
+    printf(" 3.Modificar precio\n");
+    printf(" 4.Modificar flycode \n");
+    printf(" 5.Modificar type pasajero\n");
+    printf(" 6.Modificar status flight\n");
+    printf(" 7.Salir\n");
+    printf("-----------------------------------------\n");
+
+    printf("\n Elija una opcion: ");
+	scanf("%d", &opcion);
+
+return opcion;
+}
 
 int inicializarPasajeros(ePasajero* listaDePasajeros, int tam)
 {
@@ -278,188 +293,172 @@ int modificarPasajero(ePasajero* listaDePasajeros, int tam, eStatus status[], in
 	   int indice = -1;
  	   int verificacion;
  	   char cadena[100];
- 	   int banderaPasajero = -1;
        int auxiliarModif = 0;
+       int indexEncontrado;
+       char salirr;
 
-      printPassengers(listaDePasajeros, tam, status , tams);
-	  printf("ingrese el id del pasajero que desea modificar: \n");
-	  scanf("%d", &auxiliarModif);
-	  if (auxiliarModif > tam)
-	  {
-		  printf("el id supera el tamaño, ingrese nuevamente\n ");
-		  banderaPasajero=1;
-	  }//fin if
+      if (listaDePasajeros != NULL && tam > 0 && status !=NULL && tams > 0)
+      {
+		  printPassengers(listaDePasajeros, tam, status , tams);
+		  printf("ingrese el id del pasajero que desea modificar: \n");
+		  scanf("%d", &auxiliarModif);
 
-	  if (auxiliarModif <= tam)
-	  {
-		  for (int i = 0; i < tam; i++)
-		  {
-			  if(listaDePasajeros[i].id == auxiliarModif && listaDePasajeros[i].isEmpty == OCUPADO)
+		  indexEncontrado = findPassengersById(listaDePasajeros, tam, auxiliarModif);
+
+			  if (indexEncontrado >= 0 && indexEncontrado < tam && listaDePasajeros[indexEncontrado].isEmpty == OCUPADO)
 			  {
-				  printf("ID encontrada ");
-				  banderaPasajero=0;
-				  break;
-			  }//fin if
+				  do
+				  {
+					  modificacion = menuModificaciones();
+
+					  switch(modificacion)
+					  {
+					      case 1:
+					    	  printf("Ingrese el nuevo nombre:\n ");
+					    	  fflush(stdin);
+					    	  gets(cadena);
+					    	  verificacion = sonLetras(cadena);
+
+							  while (verificacion == -1 || strlen(cadena) > 51)
+							  {
+								  printf("no ingresaste letras o el nombre fue muy largo, reingrese el Nombre: \n");
+								  fflush(stdin);
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  strcpy(listaDePasajeros[indexEncontrado].nombre, cadena);
+								  indice = 1;
+							  }
+						  break;
+
+					      case 2:
+							  printf("Ingrese el nuevo apellido: \n");
+							  fflush(stdin);
+							  gets(cadena);
+							  verificacion = sonLetras(cadena);
+
+							  while (verificacion == -1 || strlen(cadena) > 51)
+							  {
+								  printf("no ingresaste letras o el apellido fue muy largo, reingrese el Apellido: \n");
+								  fflush(stdin);
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  strcpy(listaDePasajeros[indexEncontrado].apellido, cadena);
+								  indice = 1;
+							  }
+						  break;
+
+					      case 3:
+							  printf("ingrese el nuevo precio: \n");
+							  fflush(stdin);
+							  gets(cadena);
+							  verificacion = sonLetras(cadena);
+
+							  while (verificacion == 1)
+							  {
+								  printf("no ingresaste numeros, reingrese precio: \n");
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  listaDePasajeros[indexEncontrado].price = atof(cadena);
+								  indice = 1;
+							  }
+						  break;
+
+					      case 4:
+							  printf("Ingrese el nuevo codigo de vuelo:\n ");
+							  fflush(stdin);
+							  gets(cadena);
+							  verificacion = sonLetras(cadena);
+
+							  while (verificacion == -1 || strlen(cadena) > 10)
+							  {
+								  printf("no ingresaste letras o su codigo fue muy largo, reingrese el codigo de vuelo: \n");
+								  fflush(stdin);
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  strcpy(listaDePasajeros[indexEncontrado].flycode, cadena);
+								  indice = 1;
+							  }
+						 break;
+
+					      case 5:
+							  printf("ingrese el nuevo tipo de pasajero: \n");
+							  fflush(stdin);
+							  gets(cadena);
+							  verificacion = sonLetras(cadena);
+
+							  while (verificacion == 1)
+							  {
+								  printf("no ingresaste numeros, reingrese el tipo de pasajero: \n");
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  listaDePasajeros[indexEncontrado].typePassenger = atoi(cadena);
+								  indice = 1;
+							  }
+						  break;
+
+					      case 6:
+							  printf("ingrese el nuevo status flight: \n");
+							  fflush(stdin);
+							  gets(cadena);
+							  verificacion = sonLetras(cadena);
+
+							  while (verificacion == 1)
+							  {
+								  printf("no ingresaste numeros, reingrese el tipo de pasajero: \n");
+								  gets(cadena);
+								  verificacion = sonLetras(cadena);
+							  }
+							  if(listaDePasajeros[indexEncontrado].isEmpty!= VACIO && listaDePasajeros[indexEncontrado].id == auxiliarModif)
+							  {
+								  listaDePasajeros[indexEncontrado].statusFlight = atoi(cadena);
+								  indice = 1;
+							  }
+							  break;
+
+					      case 7:
+							  printf("si desea Salir escribe S sino N: \n");
+							  fflush(stdin);
+							  scanf("%c", &salirr);
+						  break;
+
+					  default:
+						  printf("opcion invalida, pruebe una opcion del 1 al 7\n");
+						  break;
+					  }// fin del switch
+					  if(modificacion<1 || modificacion >6)
+					  {
+						  printf("Asi quedo editado el pasajero\n\n");
+						  printf("-------------------------- LISTA DE PASAJEROS ---------------------------------\n");
+						  printf("ID   Nombre    Apellido    Precio    flycode    typePassenger  statusVuelo \n");
+						  printf("-------------------------------------------------------------------------------\n");
+						  printPassenger(listaDePasajeros[indexEncontrado], tam, status, tams);
+						  printf("\n\n");
+					  }//fin if
+
+				  }while(salirr != 's');
+
+			  }// fin del if
 			  else
 			  {
-				  printf("no hay pasajero con esta id\n");
-				  break;
+				  printf("no se encontro la ID\n");
 			  }
 
-		  }// fin del for
-
-	  }// fin del if
-
-	  if (banderaPasajero == 0)
-	  {
-		  printf("\nIngrese lo que quiere modificar de ese pasajero: \n 1.nombre\n 2.apellido\n 3.precio\n 4.codigo de vuelo\n 5.tipo de pasajeros\n");
-		  scanf("%d%*c", &modificacion);
-
-		  switch(modificacion)
-		  	  {
-		  		  case 1:
-		  			printf("Ingrese el nuevo nombre:\n ");
-		  			fflush(stdin);
-		  			gets(cadena);
-					verificacion = sonLetras(cadena);
-
-		  			for(int i = 0 ; i < tam ; i++)
-		  			{
-		  				while (verificacion == -1 || strlen(cadena) > 51)
-						{
-							printf("no ingresaste letras o el nombre fue muy largo, reingrese el Nombre: \n");
-							fflush(stdin);
-							gets(cadena);
-							verificacion = sonLetras(cadena);
-						}
-		  				if(listaDePasajeros[i].isEmpty!= VACIO && listaDePasajeros[i].id == auxiliarModif)
-		  				{
-		  					strcpy(listaDePasajeros[i].nombre, cadena);
-		  					indice = 1;
-		  					break;
-		  				}
-
-
-		  			 }// fin del for
-		  			printf("asi quedo editado su pasajero:\n ");
-		  			printPassengers(listaDePasajeros, tam, status, tams);
-		  		  break;
-
-		  		  case 2:
-		  			printf("Ingrese el nuevo apellido: \n");
-		  			fflush(stdin);
-		  			gets(cadena);
-					verificacion = sonLetras(cadena);
-
-		  			for(int i = 0 ; i < tam ; i++)
-		  			{
-		  				while (verificacion == -1 || strlen(cadena) > 51)
-						{
-							printf("no ingresaste letras o el apellido fue muy largo, reingrese el Apellido: \n");
-							fflush(stdin);
-							gets(cadena);
-							verificacion = sonLetras(cadena);
-						}
-		  				if(listaDePasajeros[i].isEmpty!= VACIO && listaDePasajeros[i].id == auxiliarModif)
-		  				{
-		  					strcpy(listaDePasajeros[i].apellido, cadena);
-		  					indice = 1;
-		  					break;
-		  				}
-
-		  			 }// fin del for
-		  			printf("asi quedo editado su pasajero: \n");
-		  			printPassengers(listaDePasajeros, tam, status, tams);
-		  		  break;
-
-		  		  case 3:
-		  			  printf("ingrese el nuevo precio: \n");
-		  			  fflush(stdin);
-					  gets(cadena);
-					  verificacion = sonLetras(cadena);
-
-		  			  for(int i = 0 ; i < tam ; i++)
-		  			  {
-		  				 while (verificacion == 1)
-						 {
-							printf("no ingresaste numeros, reingrese precio: \n");
-							gets(cadena);
-							verificacion = sonLetras(cadena);
-						 }
-		  				 if(listaDePasajeros[i].isEmpty!= VACIO && listaDePasajeros[i].id == auxiliarModif)
-		  				 {
-		  					listaDePasajeros[i].price = atof(cadena);
-		  					indice = 1;
-		  					break;
-		  				 }
-
-
-		  			  }// fin del for
-		  			  printf("asi quedo editado su pasajero: \n ");
-		  			printPassengers(listaDePasajeros, tam, status, tams);
-		  		  break;
-
-		  		  case 4:
-		  			printf("Ingrese el nuevo codigo de vuelo:\n ");
-					fflush(stdin);
-					gets(cadena);
-					verificacion = sonLetras(cadena);
-
-					for(int i = 0 ; i < tam ; i++)
-					{
-						while (verificacion == -1 || strlen(cadena) > 10)
-						{
-							printf("no ingresaste letras o su codigo fue muy largo, reingrese el codigo de vuelo: \n");
-							fflush(stdin);
-							gets(cadena);
-							verificacion = sonLetras(cadena);
-						}
-						if(listaDePasajeros[i].isEmpty!= VACIO && listaDePasajeros[i].id == auxiliarModif)
-						{
-							strcpy(listaDePasajeros[i].flycode, cadena);
-							indice = 1;
-							break;
-						}
-
-
-					 }// fin del for
-					printf("asi quedo editado su pasajero:\n ");
-					printPassengers(listaDePasajeros, tam, status, tams);
-		  		  break;
-
-		  		  case 5:
-		  			printf("ingrese el nuevo tipo de pasajero: \n");
-					fflush(stdin);
-					gets(cadena);
-					verificacion = sonLetras(cadena);
-
-					  for(int i = 0 ; i < tam ; i++)
-					  {
-						 while (verificacion == 1)
-						 {
-							printf("no ingresaste numeros, reingrese el tipo de pasajero: \n");
-							gets(cadena);
-							verificacion = sonLetras(cadena);
-						 }
-						 if(listaDePasajeros[i].isEmpty!= VACIO && listaDePasajeros[i].id == auxiliarModif)
-						 {
-							listaDePasajeros[i].typePassenger = atoi(cadena);
-							indice = 1;
-							break;
-						 }
-
-
-					  }// fin del for
-				   printf("asi quedo editado su pasajeros: \n ");
-					printPassengers(listaDePasajeros, tam, status, tams);
-		  		  break;
-
-		  		  default:
-		  			  printf("opcion invalida, pruebe una opcion del 1 al 5\n");
-		  		  break;
-		  	  }// fin del switch
-
-	  }// fin del if de banderaPasajero
+      }//fin if null
 
 return indice;
 } //fin de modificar pasajero
@@ -505,11 +504,11 @@ return todoOk;
 int findPassengersById(ePasajero* listaDePasajeros, int tam, int id)
 {
     int indice = -1;
-    if(listaDePasajeros != NULL && tam > 0 && id > 0)
+    if(listaDePasajeros != NULL && tam > 0)
     {
         for(int i= 0; i < tam; i++)
         {
-            if(listaDePasajeros[i].id == id)
+            if(listaDePasajeros[i].id == id && listaDePasajeros[i].isEmpty == OCUPADO)
             {
                 indice = i;
                 break;
@@ -724,7 +723,7 @@ int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pI
     	"Juana",
     	"Miguel",
     	"Luciano",
-    	"Mariana",
+    	"Stacy",
     	"Analia"
     };
 
@@ -737,7 +736,7 @@ int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pI
     	"Manso",
     	"Hernandez",
     	"Pereyra",
-    	"Lopez",
+    	"Malibu",
     	"Falconeri"
     };
 
@@ -759,6 +758,7 @@ int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pI
     int typePassengers[10]={1, 3, 1, 1, 2, 2, 3, 1, 3, 2};
 
     int statusFlighs[10]={1, 1, 1, 2, 2, 1, 3, 1, 3, 1};
+
     if(listaDePasajeros!=NULL && tam>0 && cant>=0 && cant<=tam && pId!=NULL)
     {
     	contador=1;
