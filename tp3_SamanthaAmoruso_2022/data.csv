@@ -1,0 +1,4 @@
+id,nombre,apellido,precio,tipoPasajero,codigoVuelo
+100, sami, amoruso, 5000.00, 4, gg
+101, christian, lopez, 600.00, 3, gv
+102, salmon, pelado, 2333.00, 4, b
