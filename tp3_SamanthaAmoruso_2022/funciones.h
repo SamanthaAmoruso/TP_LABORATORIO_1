@@ -43,8 +43,6 @@ int obtenerNumero(char[]);
  **/
 char obtenerCaracter(char[]);
 
-
-
 /** \brief Obtiene una cadena y verifica que no tenga numeros
  *
  * \param Un puntero a char, el mensaje que se quiere mostrar
@@ -59,12 +57,13 @@ int obtenerCadena(char mensaje[],char cadena[]);
  **/
 int menuOpciones();
 
-/** \brief Vuelve a llamar al menu de opciones
+/**
+ * @fn la funcion son letras marca si ingreso letras
+ * @brief te confirma si lo ingresado son letras o numeros
  *
- * \return Un entero, devuelve la opcion elegida por el usuario en el menu
- **/
-int llamada(void);
-
+ * @param el char de cadena
+ * return -1 si son letras y 1 si son numeros
+ */
 int sonLetras(char cadena[]);
 
 

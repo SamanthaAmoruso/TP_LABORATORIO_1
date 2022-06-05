@@ -123,14 +123,6 @@ int menuOpciones()
 return opcion;
 }
 
-int llamada(void)
-{
-    int i;
-    printf("\n");
-	system("pause");
-    i = menuOpciones();
-    return i;
-}
 
 int sonLetras(char cadena[])
 {
