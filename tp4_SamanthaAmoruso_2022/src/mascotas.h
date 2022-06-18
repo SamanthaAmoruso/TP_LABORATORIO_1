@@ -15,7 +15,6 @@ void mostrarMascotas(LinkedList* list);
 void mostrarMascota(eMascota* m);
 int filterHembras(void* pElement);
 int filterCachorros(void* pElement);
-int filterBunny(void* pElement);
 int mascota_CompareByEdad(void* m1, void* m2);
 
 #endif // MASCOTA_H_INCLUDED

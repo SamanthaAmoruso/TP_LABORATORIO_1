@@ -37,23 +37,13 @@ int filterHembras(void* pElement)
     }
     return retorno;
 }
+
 int filterCachorros(void* pElement)
 {
     int retorno = 0;
     eMascota* auxiliar = NULL;
     auxiliar = (eMascota*) pElement;
     if(auxiliar->edad < 2)
-    {
-        retorno = 1;
-    }
-    return retorno;
-}
-int filterBunny(void* pElement)
-{
-    int retorno = 0;
-    eMascota* auxiliar = NULL;
-    auxiliar = (eMascota*) pElement;
-    if(!strcmp(auxiliar->nombre,"Milo")  )
     {
         retorno = 1;
     }
