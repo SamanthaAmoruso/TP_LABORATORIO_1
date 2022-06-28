@@ -25,12 +25,6 @@ typedef struct
 
 }ePasajero;
 
-int menu();
-/** @brief  Muestra el menu del ABM y ordenamiento de pasajeros
- *
- * @return Devuelve un entero, el numero que se muestra en el menu de pasajeros
- */
-
 int inicializarPasajeros(ePasajero* listaDePasajeros, int tam);
 /**
  * @fn esta funcion inicializa al pasajero
@@ -70,15 +64,6 @@ int printPassengers(ePasajero* listaDePasajeros, int tam, eStatus status[], int 
  * @param el array de lista de pasajeros
  * @param  el tamaño del array de pasajeros
  * @return 1 si mostro la lista y 0 si hubo error
- */
-
-int sonLetras(char cadena[]);
-/**
- * @fn la funcion son letras marca si ingreso letras
- * @brief te confirma si lo ingresado son letras o numeros
- *
- * @param el char de cadena
- * return -1 si son letras y 1 si son numeros
  */
 
 int addPassenger(ePasajero* listaDePasajeros, int tam, int* identificador, char nombre[], char apellido[], float precio, char codigoVuelo[], int tipoPasajero,  int statusVuelo);
@@ -201,12 +186,6 @@ int harcodearPasajeros(ePasajero listaDePasajeros[], int tam , int cant, int* pI
  * @param  el tamaño del array de pasajero
  * @param  int cant para la cantidad de veces que recorre
  * @return -1 si hubo error
- */
-
-int menuModificaciones();
-/** @brief  Muestra el menu para la modificacion de pasajeros
- *
- * @return Devuelve un entero, el numero que se muestra en el menu de pasajeros
  */
 
 #endif /* ARRAYPASSENGER_H_ */

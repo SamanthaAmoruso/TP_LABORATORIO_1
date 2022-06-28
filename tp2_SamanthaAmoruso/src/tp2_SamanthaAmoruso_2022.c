@@ -2,7 +2,7 @@
  ============================================================================
  Name        : tp2_SamanthaAmoruso_2022.c
  Author      : Sami
- Version     :
+ Version     : .
  Copyright   : Your copyright notice
  Description : Hello World in C, Ansi-style
  ============================================================================
@@ -16,6 +16,8 @@
 #define T 2000
 #define TAMS 3
 #include "ArrayPassenger.h"
+#include "Funciones.h"
+#include "status.h"
 
 int main()
 {
@@ -33,6 +35,7 @@ int main()
 	};
 
 	int identificador = 1;
+	int identificadorHarcodeo = 10;
 	int bandera1 = 0;
 	int banderaHarcodeo=0;
 	int opcion;
@@ -58,16 +61,18 @@ int main()
 		switch(menu())
 		{
 			case 1:
-				if(banderaHarcodeo==0)
+				if(banderaHarcodeo == 0)
 				{
-				addPassenger(listaDePasajeros, T, &identificador, auxiliar.nombre, auxiliar.apellido,
-						    auxiliar.price, auxiliar.flycode, auxiliar.typePassenger, auxiliar.statusFlight);
+					addPassenger(listaDePasajeros, T, &identificador, auxiliar.nombre, auxiliar.apellido,
+					auxiliar.price, auxiliar.flycode, auxiliar.typePassenger, auxiliar.statusFlight);
 
-				bandera1=1;
+					bandera1=1;
 				}
-				else
+				if(banderaHarcodeo == 1)
 				{
-					printf("no puede ingresar pasajeros porque los acabas de harcodear\n");
+					identificadorHarcodeo ++;
+					addPassenger(listaDePasajeros, T, &identificadorHarcodeo, auxiliar.nombre, auxiliar.apellido,
+					auxiliar.price, auxiliar.flycode, auxiliar.typePassenger, auxiliar.statusFlight);
 				}
 			break;
 

@@ -15,7 +15,6 @@ typedef struct
 	int isEmpty;
 }eStatus;
 
-
 #endif /* STATUS_H_ */
 
 int listarStatus(eStatus status[], int tam);

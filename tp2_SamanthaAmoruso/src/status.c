@@ -50,5 +50,6 @@ int cargarDescripcionStatus(eStatus status[], int tam, int id,char descripcion[]
 		todoOk = 1;
 
 	} //fin if
-	return todoOk;
+
+return todoOk;
 }
